@@ -137,6 +137,7 @@ public:
     int getNumFormats(int capability) const noexcept;
     const char * getFormatNameByIndex(int capability, int index) const noexcept;
     const char * getFormatExtensionByIndex(int capability, int index) const noexcept;
+    static bool IsFormatExtensionSupported(const char * ext, int capability, int index);
 private:
     FormatRegistry();
     ~FormatRegistry();
