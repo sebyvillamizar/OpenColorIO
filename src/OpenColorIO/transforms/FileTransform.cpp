@@ -157,7 +157,9 @@ const char * FileTransform::GetFormatExtensionByIndex(int index)
 {
     return FormatRegistry::GetInstance().getFormatExtensionByIndex(FORMAT_CAPABILITY_READ, index);
 }
-
+static bool * FileTransform::IsFormatExtensionSupported(const char * ext) {
+    return FormatRegistry::GetInstance().IsFormatExtensionSupported(FORMAT_CAPABILITY_READ)
+}
 std::ostream& operator<< (std::ostream& os, const FileTransform& t)
 {
     os << "<FileTransform ";
@@ -520,6 +522,20 @@ const char * FormatRegistry::getFormatExtensionByIndex(int capability, int index
         return m_writeFormatExtensions[index].c_str();
     }
     return "";
+}
+
+static bool FormatRegistry::IsFormatExtensionSupported(const char * extension, int capability, int index) {
+    FileFormatVectorMap::const_iterator iter
+        = m_formatsByExtension.find(StringUtils::Lower(extension));
+
+    while(iter != m_formatsByExtension.end()) {
+        if(getFormatExtensionByIndex(capability, index) == "" ) {
+        return false;
+    }
+    if(getFormatExtensionByIndex(capability, index) == extension) {
+        return true;
+    }
+    }  
 }
 
 ///////////////////////////////////////////////////////////////////////////
